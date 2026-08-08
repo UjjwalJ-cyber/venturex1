@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KiranaConnect - Local Trust Meets Smart Commerce</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .view-page { display: none; }
+    .view-page.active { display: block; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
+
+  <!-- TOP NAVBAR -->
+  <header class="bg-emerald-700 text-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-2 cursor-pointer" onclick="navigateTo('landing')">
+        <i class="fa-solid fa-store text-2xl text-amber-300"></i>
+        <span class="text-xl font-bold tracking-tight">Kirana<span class="text-amber-300">Connect</span></span>
+      </div>
+      <nav id="nav-buttons" class="space-x-2">
+        <button onclick="navigateTo('landing')" class="text-sm bg-emerald-800 hover:bg-emerald-900 px-3 py-1.5 rounded-lg transition">Home</button>
+        <button onclick="navigateTo('customer')" class="text-sm bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold px-3 py-1.5 rounded-lg transition">Customer Portal</button>
+        <button onclick="navigateTo('shopkeeper-reg')" class="text-sm bg-slate-900 hover:bg-slate-800 px-3 py-1.5 rounded-lg transition">Shopkeeper Partner</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6">
+
+    <!-- 1. LANDING PAGE VIEW -->
+    <section id="landing" class="view-page active">
+      <div class="text-center py-10">
+        <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Hyperlocal Kirana Network</span>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mt-4 mb-4">Empowering Local Stores, <br class="hidden sm:inline">Preserving Neighborhood Trust</h1>
+        <p class="text-lg text-slate-600 max-w-2xl mx-auto mb-8">
+          Connecting you directly with your trusted neighborhood Kirana. Pre-order online, track availability, and enjoy flexible pickup or direct store delivery.
+        </p>
+
+        <!-- PORTAL SELECTION CARDS -->
+        <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+          <!-- Customer Option -->
+          <div onclick="navigateTo('customer')" class="bg-white border-2 border-slate-200 hover:border-emerald-500 rounded-2xl p-6 shadow-sm hover:shadow-xl transition cursor-pointer text-left flex flex-col justify-between group">
+            <div>
+              <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">
+                <i class="fa-solid fa-basket-shopping"></i>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 mb-2">Continue as Customer</h3>
+              <p class="text-slate-600 text-sm mb-4">Browse real-time stock at local stores, pre-order groceries, track informal credit, and choose pickup or home delivery.</p>
+            </div>
+            <span class="text-emerald-600 font-semibold text-sm flex items-center gap-1 group-hover:translate-x-1 transition">Enter Marketplace &rarr;</span>
+          </div>
+
+          <!-- Shopkeeper Option -->
+          <div onclick="navigateTo('shopkeeper-reg')" class="bg-white border-2 border-slate-200 hover:border-amber-500 rounded-2xl p-6 shadow-sm hover:shadow-xl transition cursor-pointer text-left flex flex-col justify-between group">
+            <div>
+              <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">
+                <i class="fa-solid fa-shop"></i>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 mb-2">Register as Shopkeeper</h3>
+              <p class="text-slate-600 text-sm mb-4">Digitize your inventory, manage customer Khaata, receive pre-orders, and boost sales with AI stock insights.</p>
+            </div>
+            <span class="text-amber-600 font-semibold text-sm flex items-center gap-1 group-hover:translate-x-1 transition">Join Partner Network &rarr;</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. CUSTOMER VIEW -->
+    <section id="customer" class="view-page">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900">Hyperlocal Marketplace</h2>
+          <p class="text-sm text-slate-500">Showing Kirana stores near: <strong class="text-slate-700">Dhanbad Town Center</strong></p>
+        </div>
+        <!-- Shop Filter -->
+        <div class="w-full md:w-72">
+          <label class="block text-xs font-semibold text-slate-500 mb-1">Select Nearby Kirana Store</label>
+          <select id="shop-selector" onchange="switchCustomerShop(this.value)" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm font-medium focus:ring-2 focus:ring-emerald-500 outline-none">
+            <option value="gupta">Gupta Super Mart (PRO - 0.3 km) ⭐ high priority</option>
+            <option value="sharma">Sharma General Store (0.8 km)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Shop Info Header -->
+      <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 mb-6 flex flex-wrap justify-between items-center gap-4">
+        <div>
+          <h3 id="current-shop-name" class="font-bold text-lg text-emerald-950">Gupta Super Mart</h3>
+          <p id="current-shop-delivery" class="text-xs text-emerald-700 font-medium">✅ Home Delivery Enabled by Shopkeeper | Minimum Order: ₹100</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs bg-emerald-200 text-emerald-800 font-semibold px-2.5 py-1 rounded-md">Verified Local Partner</span>
+        </div>
+      </div>
+
+      <!-- Inventory Grid -->
+      <h3 class="font-bold text-slate-800 mb-3 text-lg">Product Availability & Pricing</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8" id="product-grid">
+        <!-- JS populated items -->
+      </div>
+
+      <!-- Cart / Pre-Order Summary -->
+      <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <h3 class="font-bold text-slate-900 mb-4 text-lg border-b pb-2">Your Pre-Order Basket</h3>
+        <div id="cart-items" class="space-y-2 mb-4 text-sm text-slate-600">
+          <p class="italic text-slate-400">No items added yet. Click "Add to Order" on available products.</p>
+        </div>
+        <div class="flex justify-between items-center font-bold text-slate-900 text-lg border-t pt-3 mb-4">
+          <span>Total Payable:</span>
+          <span id="cart-total">₹0</span>
+        </div>
+
+        <div class="space-y-3">
+          <label class="block text-sm font-semibold text-slate-700">Fulfillment Method:</label>
+          <div class="flex gap-4">
+            <label class="flex items-center gap-2 text-sm cursor-pointer">
+              <input type="radio" name="fulfillment" value="pickup" checked class="text-emerald-600 focus:ring-emerald-500">
+              <span>Self Store Pickup (Free)</span>
+            </label>
+            <label class="flex items-center gap-2 text-sm cursor-pointer">
+              <input type="radio" name="fulfillment" value="delivery" class="text-emerald-600 focus:ring-emerald-500">
+              <span>Home Delivery (Shopkeeper approval required)</span>
+            </label>
+          </div>
+          <button onclick="placeOrder()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-lg transition mt-2">Place Pre-Order with Store</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. SHOPKEEPER REGISTRATION VIEW -->
+    <section id="shopkeeper-reg" class="view-page">
+      <div class="max-w-3xl mx-auto bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
+        <h2 class="text-2xl font-bold text-slate-900 mb-1">Register Your Kirana Store</h2>
+        <p class="text-slate-500 text-sm mb-6">Start accepting pre-orders and managing customer credit digitally.</p>
+
+        <form onsubmit="handleRegistration(event)" class="space-y-6">
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Store Name</label>
+              <input type="text" required placeholder="e.g. Verma Retail Store" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Owner Name</label>
+              <input type="text" required placeholder="Owner Full Name" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm outline-none focus:border-amber-500">
+            </div>
+          </div>
+
+          <!-- SUBSCRIPTION PLAN SELECTION -->
+          <div>
+            <label class="block text-sm font-bold text-slate-800 mb-3">Choose Your Business Plan:</label>
+            <div class="grid md:grid-cols-2 gap-4">
+              <!-- Normal Plan -->
+              <label class="relative border-2 border-slate-200 rounded-xl p-4 cursor-pointer hover:border-slate-400 transition block">
+                <input type="radio" name="plan" value="normal" checked class="absolute top-4 right-4 text-amber-600">
+                <div class="font-bold text-slate-900 text-lg">Normal Plan</div>
+                <div class="text-2xl font-extrabold text-slate-900 my-1">₹199 <span class="text-xs font-normal text-slate-500">/month</span></div>
+                <ul class="text-xs text-slate-600 space-y-1.5 mt-3">
+                  <li>✔ Basic Online Product Listing</li>
+                  <li>✔ Digital Khaata (Credit Ledger)</li>
+                  <li>✔ Accept Pickups & Delivery requests</li>
+                  <li class="text-slate-400 line-through">✘ AI Demand & Stock Insights</li>
+                  <li class="text-slate-400 line-through">✘ Priority Customer Search Preference</li>
+                </ul>
+              </label>
+
+              <!-- Pro Plan -->
+              <label class="relative border-2 border-amber-500 bg-amber-50/30 rounded-xl p-4 cursor-pointer hover:border-amber-600 transition block">
+                <span class="absolute -top-3 left-4 bg-amber-500 text-slate-900 font-bold text-[10px] uppercase px-2 py-0.5 rounded-full">Recommended</span>
+                <input type="radio" name="plan" value="pro" class="absolute top-4 right-4 text-amber-600">
+                <div class="font-bold text-amber-950 text-lg flex items-center gap-1">
+                  Pro Plan <i class="fa-solid fa-wand-magic-sparkles text-amber-500 text-xs"></i>
+                </div>
+                <div class="text-2xl font-extrabold text-slate-900 my-1">₹299 <span class="text-xs font-normal text-slate-500">/month</span></div>
+                <ul class="text-xs text-slate-700 space-y-1.5 mt-3">
+                  <li class="font-semibold text-emerald-700">✔ Everything in Normal Plan</li>
+                  <li class="font-semibold text-amber-900">✔ AI-Powered Stock Recommendation</li>
+                  <li class="font-semibold text-amber-900">✔ High Preference Customer Placement</li>
+                  <li>✔ Predictive Refill Alerts</li>
+                </ul>
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-lg transition">Complete Registration & Enter Dashboard</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- 4. SHOPKEEPER DASHBOARD VIEW -->
+    <section id="shopkeeper-dash" class="view-page">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-2 border-b pb-4">
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900">Shopkeeper Control Center</h2>
+          <p class="text-xs text-slate-500" id="dash-plan-badge">Active Subscription: <span class="font-semibold text-amber-600">Pro Plan (₹299/mo)</span></p>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="switchTab('inventory')" class="dash-tab-btn bg-slate-900 text-white text-xs px-3 py-2 rounded-lg font-medium">Inventory & Pricing</button>
+          <button onclick="switchTab('khaata')" class="dash-tab-btn bg-slate-200 text-slate-700 text-xs px-3 py-2 rounded-lg font-medium">Digital Khaata</button>
+          <button onclick="switchTab('ai')" id="ai-tab-btn" class="dash-tab-btn bg-amber-100 text-amber-900 border border-amber-300 text-xs px-3 py-2 rounded-lg font-medium">AI Recommendations ✨</button>
+        </div>
+      </div>
+
+      <!-- TAB 1: INVENTORY MANAGEMENT -->
+      <div id="tab-inventory" class="tab-content">
+        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm mb-6">
+          <h3 class="font-bold text-slate-900 mb-3 text-sm">Manage Products & Custom Prices</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-100 text-slate-600">
+                <tr>
+                  <th class="p-2.5">Item Name</th>
+                  <th class="p-2.5">Stock Status</th>
+                  <th class="p-2.5">Your Custom Price (₹)</th>
+                  <th class="p-2.5">Action</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr>
+                  <td class="p-2.5 font-medium">Aashirvaad Atta 5kg</td>
+                  <td class="p-2.5 text-emerald-600 font-semibold">In Stock</td>
+                  <td class="p-2.5"><input type="number" value="260" class="w-20 border rounded px-1.5 py-1 text-xs"></td>
+                  <td class="p-2.5"><button onclick="alert('Price updated!')" class="bg-slate-200 hover:bg-slate-300 px-2 py-1 rounded">Update</button></td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-medium">Amul Butter 500g</td>
+                  <td class="p-2.5 text-amber-600 font-semibold">Low Stock (2)</td>
+                  <td class="p-2.5"><input type="number" value="275" class="w-20 border rounded px-1.5 py-1 text-xs"></td>
+                  <td class="p-2.5"><button onclick="alert('Price updated!')" class="bg-slate-200 hover:bg-slate-300 px-2 py-1 rounded">Update</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: DIGITAL KHAATA -->
+      <div id="tab-khaata" class="tab-content hidden">
+        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+          <h3 class="font-bold text-slate-900 mb-3 text-sm">Local Customer Credit Ledger (Khaata)</h3>
+          <div class="space-y-3">
+            <div class="flex justify-between items-center p-3 bg-slate-50 rounded-lg border border-slate-200 text-xs">
+              <div>
+                <p class="font-bold text-slate-800">Ramesh Sharma (Flat 302)</p>
+                <p class="text-slate-500">Last entry: Yesterday</p>
+              </div>
+              <div class="text-right">
+                <span class="text-red-600 font-bold block text-sm">₹ 850 Due</span>
+                <button onclick="alert('Payment reminder SMS sent!')" class="text-[10px] bg-emerald-600 text-white px-2 py-1 rounded mt-1">Send WhatsApp Reminder</button>
+              </div>
+            </div>
+            <div class="flex justify-between items-center p-3 bg-slate-50 rounded-lg border border-slate-200 text-xs">
+              <div>
+                <p class="font-bold text-slate-800">Priya Verma (House #12)</p>
+                <p class="text-slate-500">Last entry: 3 days ago</p>
+              </div>
+              <div class="text-right">
+                <span class="text-red-600 font-bold block text-sm">₹ 420 Due</span>
+                <button onclick="alert('Payment reminder SMS sent!')" class="text-[10px] bg-emerald-600 text-white px-2 py-1 rounded mt-1">Send WhatsApp Reminder</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: AI RECOMMENDATIONS (PRO FEATURE) -->
+      <div id="tab-ai" class="tab-content hidden">
+        <div id="ai-content-box" class="bg-amber-50/60 border border-amber-200 rounded-xl p-5">
+          <div class="flex items-center gap-2 mb-3">
+            <i class="fa-solid fa-wand-magic-sparkles text-amber-600"></i>
+            <h3 class="font-bold text-slate-900 text-sm">AI Stock & Demand Forecasting</h3>
+          </div>
+          <div class="space-y-3 text-xs text-slate-700">
+            <div class="bg-white p-3 rounded-lg border border-amber-200">
+              <span class="bg-amber-100 text-amber-800 font-bold px-1.5 py-0.5 rounded text-[10px]">UPCOMING DEMAND SURGE</span>
+              <p class="font-semibold text-slate-800 mt-1">Stock up on Packet Milk & Bread for tomorrow morning.</p>
+              <p class="text-slate-500 mt-0.5">Based on neighborhood order history, demand spikes by 35% on Sunday mornings.</p>
+            </div>
+            <div class="bg-white p-3 rounded-lg border border-amber-200">
+              <span class="bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.5 rounded text-[10px]">SMART REORDER ALERT</span>
+              <p class="font-semibold text-slate-800 mt-1">Re-order Fortune Sunflower Oil (1L).</p>
+              <p class="text-slate-500 mt-0.5">Current stock (3 units) will deplete within 24 hours.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 text-slate-400 text-xs text-center py-4 mt-auto">
+    KiranaConnect Hackathon Prototype &bull; Empowering 13M+ Local Stores
+  </footer>
+
+  <!-- INTERACTIVE ROUTING & MOCK LOGIC -->
+  <script>
+    // Sample Data
+    const productsData = {
+      gupta: [
+        { id: 1, name: "Aashirvaad Whole Wheat Atta 5kg", price: 260, stock: "In Stock" },
+        { id: 2, name: "Amul Pasteurised Butter 500g", price: 275, stock: "Only 2 left" },
+        { id: 3, name: "Tata Salt Vacuum Evaporated 1kg", price: 28, stock: "In Stock" },
+        { id: 4, name: "Fortune Sunlite Sunflower Oil 1L", price: 145, stock: "In Stock" }
+      ],
+      sharma: [
+        { id: 1, name: "Aashirvaad Whole Wheat Atta 5kg", price: 265, stock: "In Stock" },
+        { id: 2, name: "Amul Pasteurised Butter 500g", price: 280, stock: "Out of Stock" },
+        { id: 3, name: "Tata Salt Vacuum Evaporated 1kg", price: 28, stock: "In Stock" }
+      ]
+    };
+
+    let currentShop = 'gupta';
+    let cart = [];
+    let selectedPlan = 'pro';
+
+    // Router Function
+    function navigateTo(viewId) {
+      document.querySelectorAll('.view-page').forEach(el => el.classList.remove('active'));
+      document.getElementById(viewId).classList.add('active');
+      window.scrollTo(0,0);
+
+      if(viewId === 'customer') {
+        renderProducts();
+      }
+    }
+
+    // Render Products for Selected Kirana
+    function switchCustomerShop(shopId) {
+      currentShop = shopId;
+      const nameEl = document.getElementById('current-shop-name');
+      const delEl = document.getElementById('current-shop-delivery');
+
+      if(shopId === 'gupta') {
+        nameEl.innerText = "Gupta Super Mart (PRO)";
+        delEl.innerText = "✅ Home Delivery Enabled by Shopkeeper | Minimum Order: ₹100";
+      } else {
+        nameEl.innerText = "Sharma General Store";
+        delEl.innerText = "⚠️ Store Pickup Only (Shopkeeper disabled home delivery)";
+      }
+      renderProducts();
+    }
+
+    function renderProducts() {
+      const grid = document.getElementById('product-grid');
+      grid.innerHTML = '';
+      const items = productsData[currentShop];
+
+      items.forEach(item => {
+        const isOutOfStock = item.stock === "Out of Stock";
+        grid.innerHTML += `
+          <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+            <div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded ${isOutOfStock ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}">${item.stock}</span>
+              <h4 class="font-bold text-slate-800 text-sm mt-2">${item.name}</h4>
+              <p class="text-emerald-700 font-extrabold text-base my-2">₹ ${item.price}</p>
+            </div>
+            <button onclick="addToCart('${item.name}', ${item.price})" ${isOutOfStock ? 'disabled' : ''} class="w-full text-xs font-semibold py-2 rounded-lg transition ${isOutOfStock ? 'bg-slate-100 text-slate-400 cursor-not-allowed' : 'bg-slate-900 hover:bg-slate-800 text-white'}">
+              ${isOutOfStock ? 'Unavailable' : 'Add to Order'}
+            </button>
+          </div>
+        `;
+      });
+    }
+
+    function addToCart(name, price) {
+      cart.push({ name, price });
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const cartContainer = document.getElementById('cart-items');
+      const totalEl = document.getElementById('cart-total');
+      
+      if(cart.length === 0) {
+        cartContainer.innerHTML = '<p class="italic text-slate-400">No items added yet. Click "Add to Order" on available products.</p>';
+        totalEl.innerText = '₹0';
+        return;
+      }
+
+      cartContainer.innerHTML = '';
+      let total = 0;
+      cart.forEach((item, index) => {
+        total += item.price;
+        cartContainer.innerHTML += `
+          <div class="flex justify-between items-center bg-slate-50 p-2 rounded">
+            <span>${item.name}</span>
+            <span class="font-bold">₹${item.price}</span>
+          </div>
+        `;
+      });
+      totalEl.innerText = `₹${total}`;
+    }
+
+    function placeOrder() {
+      if(cart.length === 0) {
+        alert('Your pre-order basket is empty!');
+        return;
+      }
+      alert('Pre-order successfully sent to shopkeeper! You can view status in your order history.');
+      cart = [];
+      updateCartUI();
+    }
+
+    // Shopkeeper Dashboard Tab Switching
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+    }
+
+    // Shopkeeper Registration Handler
+    function handleRegistration(e) {
+      e.preventDefault();
+      const planRadios = document.getElementsByName('plan');
+      for (let radio of planRadios) {
+        if (radio.checked) selectedPlan = radio.value;
+      }
+
+      const planBadge = document.getElementById('dash-plan-badge');
+      const aiTab = document.getElementById('ai-tab-btn');
+      const aiBox = document.getElementById('ai-content-box');
+
+      if(selectedPlan === 'normal') {
+        planBadge.innerHTML = 'Active Subscription: <span class="font-semibold text-slate-700">Normal Plan (₹199/mo)</span>';
+        aiTab.classList.add('opacity-50');
+        aiBox.innerHTML = `
+          <div class="text-center py-6">
+            <i class="fa-solid fa-lock text-2xl text-slate-400 mb-2"></i>
+            <p class="font-bold text-slate-700">AI Recommendations Disabled</p>
+            <p class="text-xs text-slate-500 mt-1">Upgrade to ₹299 Pro Plan to unlock automated demand forecasting and priority listing!</p>
+          </div>
+        `;
+      } else {
+        planBadge.innerHTML = 'Active Subscription: <span class="font-semibold text-amber-600">Pro Plan (₹299/mo)</span>';
+        aiTab.classList.remove('opacity-50');
+      }
+
+      navigateTo('shopkeeper-dash');
+    }
+  </script>
+</body>
+</html>
